@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    container_name: db 
+    env_file:
+      - .env
+    ports:
+      - 5400:5432
+
+  go-app:
+    build: ./
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    container_name: go-app
+    depends_on:
+      - postgres
+    restart: always
+    volumes:
+      - ../logs:/usr/local/go/src/app/logs
+
+    
